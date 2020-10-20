@@ -33,7 +33,7 @@
 }
 
 .camara-button {
-  margin: 2em auto 1em auto;
+  margin: 0em auto 5em auto;
 }
 
 .uid {
@@ -47,6 +47,7 @@
   right: 0;
 }
 #user-uid {
+  visibility: hidden;
   font-size: 12px;
   font-weight: bold;
   margin-left: 0.5em;
@@ -62,6 +63,6 @@
     margin: 1.5em auto 1em auto;
   }
   .camara-button {
-    margin: 2em auto 2em auto;
+    margin: 0em auto 5em auto;
   }
 }

@@ -10,6 +10,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { Logo } from '../../utils/imgUrl';
+import Plot from "react-plotly.js"
 import './Home.css';
 
 const styles = {
@@ -19,12 +20,14 @@ const styles = {
   },
 };
 
+
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {},
-      hr: 0,
+      hr: [],
+      count: [],
       prog: 0,
     };
     this.retrievePulse = this.retrievePulse.bind(this);
@@ -79,8 +82,10 @@ class Home extends Component {
   }
 
   retrievePulse() {
+  
     firebase.auth().onAuthStateChanged((user) => {
       this.setState({ loading: true }, () => {
+        let i = 0;
         if (user) {
           fetch(`https://pulsetracker-api.herokuapp.com/${user.uid}`)
             .then((res) => res.json())
@@ -88,10 +93,15 @@ class Home extends Component {
               const heartrate = result.pulse;
               this.setState({ hr: heartrate });
               this.setState({ loading: false });
+              //this.setState({ time: new Date().toLocaleTimeString()});
+              //console.log(this.state.time);
+              this.setState({count: i})
+              i++;
               console.log(heartrate);
             });
         } else {
           this.setState({ hr: 0 });
+          console.log(this.state.hr);
         }
       });
     });
@@ -107,6 +117,8 @@ class Home extends Component {
     document.execCommand('copy');
     textArea.remove();
   }
+
+
 
   render() {
     const loading = this.state.loading;
@@ -132,29 +144,38 @@ class Home extends Component {
               Welcome, {this.state.user.displayName}{' '}
             </h2>
 
-            <div className="uid hidden" id="uid-badge">
-              <span className="uid-tag badge badge-pill badge-dark">UID</span>
               <span id="user-uid"></span>
-            </div>
 
             <p className="top-text">Let's check your pulse! </p>
             <p>
               Place your finger over your camera <br /> for 15-30 seconds
             </p>
-            <div className="pulse-view">
+         
               {loading ? (
                 <div className="pulse-data-spinner">
                   <CircularProgress />{' '}
                 </div>
               ) : (
-                <h1 className="pulse-data"> {this.state.hr}</h1>
+
+                <Plot data={[ 
+                 {
+            x: this.state.hr,
+            y: this.state.time,
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: 'red'}
+          }
+        ]}
+        layout={{width: 320, height: 240}}
+        />
+             //   <h1 className="pulse-data"> {this.state.hr}</h1>
               )}
               <p>
                 {' '}
-                <b> Heart Beats per Minute </b>
+                <b> {this.state.hr} Heart Beats per Minute </b>
                 <br /> were logged by the algorithm
               </p>
-            </div>
+        
             <input
               accept="video/*"
               onChange={this.uploadVideoToFirebase}
