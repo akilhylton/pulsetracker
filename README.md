@@ -6,7 +6,9 @@
 
 
 ## 💭 Background
-An open source tool built for monitoring heart rate. The goal here is to have a low cost and widely accessible way to measure someones heart rate. It uses a touch-based system for generating heart rate values. In contrast to it's counterpart(touchless-based systems) it is a far more accurate and less sensitive to enviornmental conditions.  
+An open source tool built for monitoring heart rate. The goal here is to have a low cost and widely accessible way to measure someones heart rate. It uses a touch-based system for generating heart rate values. In contrast to it's counterpart(touchless-based systems) it is a far more accurate and less sensitive to enviornmental conditions.
+
+![pulsetracker-ui](https://i.imgur.com/2rYokhR.png)
 
 ## Usage
 After cloning this repository and changing directories to it.
